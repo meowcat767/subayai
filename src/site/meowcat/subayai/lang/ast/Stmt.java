@@ -188,9 +188,6 @@ public abstract class Stmt {
     }
 
     public static class Pkg extends Stmt {
-        public final Token name; // Wait, pkg site.meowcat.subayai.lang; -> this is complex path?
-        // Or just a string of tokens?
-        // Simplify to keeping it as a String or list of tokens.
         public final List<Token> path;
 
         public Pkg(List<Token> path) {

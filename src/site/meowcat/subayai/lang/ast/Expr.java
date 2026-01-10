@@ -183,31 +183,6 @@ public abstract class Expr {
     }
 
     public static class New extends Expr {
-        public final Token keyword; // 'new' keyword token? Or just the type token? Spec says: p = new Parser;
-        // It seems 'new' is not in the keyword list in spec... wait.
-        // 3.3 Keywords list doesn't have 'new'.
-        // But 5.4 Example says: p = new Parser;
-        // Is 'new' a keyword? Or is it implicit?
-        // Spec 3.3 Keywords: break, case, call, class... NO 'new'.
-        // Does 'call' replace 'new'?
-        // 5.2: call Print;
-        // 5.4: p = new Parser;
-        // Maybe 'new' IS a keyword but missed in the list? Or maybe 'new' is just an
-        // identifier that is treated specially or I missed it?
-        // Spec 3.3 says "The language currently defines the following 25 keywords". It
-        // lists 25.
-        // 'new' is NOT in the list.
-        // Maybe `New` is a class/type? No.
-        // If `new` is used in code but not in keywords, maybe it's valid to use as
-        // identifier or it's a documentation error.
-        // However, `call` is a keyword.
-        // Let's assume `new` is a keyword that was accidentally omitted from 3.3 list
-        // but present in 5.4.
-        // I'll add `NEW` to TokenType and Lexer to be safe, or treat it as `call`?
-        // 5.4: `p = new Parser;` -> assignment.
-        // 5.2: `call Print;` -> statement.
-        // I'll add NEW to TokenType.
-
         public final Token className;
 
         public New(Token className) {
