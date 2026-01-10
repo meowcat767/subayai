@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>yai</string>
+	</array>
+	<key>name</key>
+	<string>Subayai</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>comment</key>
+			<string>Single line comment</string>
+			<key>match</key>
+			<string>//.*$</string>
+			<key>name</key>
+			<string>comment.line.double-slash.subayai</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Strings</string>
+			<key>begin</key>
+			<string>"</string>
+			<key>end</key>
+			<string>"</string>
+			<key>name</key>
+			<string>string.quoted.double.subayai</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\\.</string>
+					<key>name</key>
+					<string>constant.character.escape.subayai</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Keywords</string>
+			<key>match</key>
+			<string>\b(if|else|switch|case|default|return|import|pkg|new|var|defer|break|continue|select)\b</string>
+			<key>name</key>
+			<string>keyword.control.subayai</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Storage / Modifiers</string>
+			<key>match</key>
+			<string>\b(class|lock|notlock|final|interface)\b</string>
+			<key>name</key>
+			<string>storage.type.subayai</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Constants</string>
+			<key>match</key>
+			<string>\b(true|false|nil)\b</string>
+			<key>name</key>
+			<string>constant.language.subayai</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Numbers</string>
+			<key>match</key>
+			<string>\b\d+(\.\d+)?\b</string>
+			<key>name</key>
+			<string>constant.numeric.subayai</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Built-in Sys</string>
+			<key>match</key>
+			<string>\b(Sys)\b</string>
+			<key>name</key>
+			<string>support.class.subayai</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Function Calls</string>
+			<key>match</key>
+			<string>\b([a-zA-Z_][a-zA-Z0-9_]*)(?=\()</string>
+			<key>name</key>
+			<string>entity.name.function.subayai</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Operators</string>
+			<key>match</key>
+			<string>(\+|\-|\*|/|%|==|!=|&gt;|&gt;=|&lt;|&lt;=|=|->)</string>
+			<key>name</key>
+			<string>keyword.operator.subayai</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.subayai</string>
+	<key>uuid</key>
+	<string>ca03173a-4933-40f4-b258-00511871a4f0</string>
+</dict>
+</plist>
