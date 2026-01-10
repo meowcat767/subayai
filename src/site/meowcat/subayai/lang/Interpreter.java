@@ -13,6 +13,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     private Environment environment = new Environment();
     private final Map<String, Stmt.Class> classes = new HashMap<>(); // Standard classes
+    private final Map<String, Class<?>> javaClasses = new HashMap<>();
 
     public Interpreter() {
     }
@@ -144,6 +145,21 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitImportStmt(Stmt.Import stmt) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < stmt.path.size(); i++) {
+            if (i > 0)
+                sb.append(".");
+            sb.append(stmt.path.get(i).lexeme);
+        }
+        String qualifiedName = sb.toString();
+
+        try {
+            Class<?> clazz = Class.forName(qualifiedName);
+            // Default import alias is simple name
+            javaClasses.put(clazz.getSimpleName(), clazz);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Could not resolve import: " + qualifiedName);
+        }
         return null;
     }
 
@@ -209,7 +225,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         if (callee instanceof SubayaiCallable) {
             SubayaiCallable function = (SubayaiCallable) callee;
-            if (arguments.size() != function.arity()) {
+            if (function.arity() != -1 && arguments.size() != function.arity()) {
                 throw new RuntimeException("Expected " +
                         function.arity() + " arguments but got " +
                         arguments.size() + ".");
@@ -229,7 +245,92 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             return ((Sys.SysInstance) object).get(expr.name);
         }
 
-        throw new RuntimeException("Only instances have properties.");
+        // Java Interop
+        return getJavaMember(object, expr.name.lexeme);
+    }
+
+    private Object getJavaMember(Object object, String name) {
+        Class<?> clazz = (object instanceof Class<?>) ? (Class<?>) object : object.getClass();
+
+        // Try Field
+        try {
+            java.lang.reflect.Field field = clazz.getField(name);
+            return field.get(object instanceof Class<?> ? null : object);
+        } catch (Exception e) {
+            // Not a field
+        }
+
+        // Return a callable for method
+        return new JavaMethod(object, name);
+    }
+
+    private class JavaMethod implements SubayaiCallable {
+        private final Object object;
+        private final String methodName;
+
+        JavaMethod(Object object, String methodName) {
+            this.object = object;
+            this.methodName = methodName;
+        }
+
+        @Override
+        public int arity() {
+            return -1;
+        }
+
+        @Override
+        public Object call(Interpreter interpreter, List<Object> arguments) {
+            Class<?> clazz = (object instanceof Class<?>) ? (Class<?>) object : object.getClass();
+            // Try to find matching method
+            for (java.lang.reflect.Method method : clazz.getMethods()) {
+                if (method.getName().equals(methodName)) {
+                    if (method.getParameterCount() == arguments.size()) {
+                        try {
+                            Object[] args = new Object[arguments.size()];
+                            Class<?>[] paramTypes = method.getParameterTypes();
+                            boolean match = true;
+                            for (int i = 0; i < arguments.size(); i++) {
+                                args[i] = convertArg(arguments.get(i), paramTypes[i]);
+                                if (args[i] == null && arguments.get(i) != null) {
+                                    match = false;
+                                    break;
+                                }
+                            }
+
+                            if (match) {
+                                return method.invoke(object instanceof Class<?> ? null : object, args);
+                            }
+                        } catch (Exception e) {
+                        }
+                    }
+                }
+            }
+            throw new RuntimeException("Method matching " + methodName + " not found or arguments mismatch.");
+        }
+
+        private Object convertArg(Object arg, Class<?> targetType) {
+            if (arg == null)
+                return null;
+            if (targetType.isAssignableFrom(arg.getClass()))
+                return arg;
+            if (arg instanceof Double) {
+                if (targetType == int.class || targetType == Integer.class)
+                    return ((Double) arg).intValue();
+                if (targetType == long.class || targetType == Long.class)
+                    return ((Double) arg).longValue();
+                if (targetType == float.class || targetType == Float.class)
+                    return ((Double) arg).floatValue();
+                if (targetType == double.class || targetType == Double.class)
+                    return arg;
+            }
+            if (arg instanceof String && targetType == String.class)
+                return arg;
+
+            // Allow Object param to take anything
+            if (targetType == Object.class)
+                return arg;
+            return null;
+        }
     }
 
     @Override
@@ -290,16 +391,32 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Object visitNewExpr(Expr.New expr) {
         String className = expr.className.lexeme;
         Stmt.Class classStmt = classes.get(className);
-        if (classStmt == null) {
-            throw new RuntimeException("Undefined class '" + className + "' at " + expr.className.line);
+        if (classStmt != null) {
+            SubayaiInstance instance = new SubayaiInstance(classStmt);
+            Environment instanceEnv = new Environment(environment);
+            instance.setEnvironment(instanceEnv);
+            executeBlock(classStmt.body, instanceEnv);
+            return instance;
         }
 
-        SubayaiInstance instance = new SubayaiInstance(classStmt);
-        Environment instanceEnv = new Environment(environment);
-        instance.setEnvironment(instanceEnv);
-        executeBlock(classStmt.body, instanceEnv);
+        // Java Interop
+        Class<?> javaClass = javaClasses.get(className);
+        if (javaClass != null) {
+            try {
+                // Determine constructor. Since we don't have args in Expr.New yet (parser
+                // limitation),
+                // we assume no-arg constructor.
+                return javaClass.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException(
+                        "Failed to instantiate loaded Java class " + className + ": " + e.getMessage());
+            }
+        } else {
+            // Try assuming className is fully qualified? No, parser treats it as
+            // identifier.
+        }
 
-        return instance;
+        throw new RuntimeException("Undefined class '" + className + "' at " + expr.className.line);
     }
 
     private void checkNumberOperand(Token operator, Object operand) {
