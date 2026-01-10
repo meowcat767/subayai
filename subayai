@@ -1,0 +1,77 @@
+#!/bin/bash
+# Subayai CLI Wrapper
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BIN_DIR="$PROJECT_ROOT/bin"
+SRC_DIR="$PROJECT_ROOT/src"
+MAIN_CLASS="site.meowcat.subayai.lang.Main"
+
+function build() {
+    echo "Building Subayai..."
+    mkdir -p "$BIN_DIR"
+    
+    # Find all java files
+    SOURCES=$(find "$SRC_DIR" -name "*.java")
+    
+    # Compile
+    javac -d "$BIN_DIR" $SOURCES
+    
+    if [ $? -eq 0 ]; then
+        echo "Build successful."
+    else
+        echo "Build failed."
+        exit 1
+    fi
+}
+
+function clean() {
+    rm -rf "$BIN_DIR"
+    echo "Cleaned build artifacts."
+}
+
+function run_subayai() {
+    # Check if built, if not build
+    if [ ! -f "$BIN_DIR/site/meowcat/subayai/lang/Main.class" ]; then
+        build
+    fi
+    
+    java -cp "$BIN_DIR" "$MAIN_CLASS" "$@"
+}
+
+function show_help() {
+    echo "Subayai CLI Tool"
+    echo "Usage:"
+    echo "  ./subayai run <file.yai>   Run a Subayai source file"
+    echo "  ./subayai build            Compile the Subayai interpreter"
+    echo "  ./subayai clean            Remove build artifacts"
+    echo "  ./subayai help             Show this help message"
+}
+
+# Wrapper logic
+COMMAND=$1
+
+case "$COMMAND" in
+    build)
+        build
+        ;;
+    clean)
+        clean
+        ;;
+    run)
+        run_subayai "$@"
+        ;;
+    help|--help|-h)
+        show_help
+        ;;
+    *)
+        # Pass through to Main potentially? 
+        # Main expects "run [file]", so if user types "./subayai run foo.yai", $1 is run.
+        # If user types just "./subayai", show help.
+        if [ -z "$COMMAND" ]; then
+            show_help
+        else
+            # Try passing to Java implementation just in case
+             run_subayai "$@"
+        fi
+        ;;
+esac
