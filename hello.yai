@@ -1,0 +1,5 @@
+pkg site.meowcat.subayai.lang;
+
+class main {
+    Sys.out("Hello, World!");
+}
