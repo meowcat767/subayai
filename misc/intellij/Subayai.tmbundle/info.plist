@@ -4,7 +4,11 @@
 <dict>
 	<key>name</key>
 	<string>Subayai</string>
+	<key>ordering</key>
+	<array>
+		<string>ca03173a-4933-40f4-b258-00511871a4f0</string>
+	</array>
 	<key>uuid</key>
-	<string>ca03173a-4933-40f4-b258-00511871a4f0</string>
+	<string>B0795410-6818-4577-920D-11C2833F8C51</string>
 </dict>
 </plist>
