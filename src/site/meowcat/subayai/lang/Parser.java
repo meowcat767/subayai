@@ -76,15 +76,14 @@ public class Parser {
 
     private Stmt classDeclaration() {
         boolean isLock = false;
-        if (previous() != null && previous().type == LOCK)
-            isLock = true;
-        // If we matched LOCK/NOTLOCK, previous() is it.
-        // If we didn't match them (check(CLASS) was true), previous might be unrelated.
-        // wait, I did: if (match(LOCK, NOTLOCK) || check(CLASS))
-        // If matched LOCK/NOTLOCK, then next must be CLASS.
-        // If not matched, next IS CLASS.
+        if (current > 0) {
+            Token prev = tokens.get(current - 1);
+            if (prev.type == LOCK || prev.type == NOTLOCK) {
+                isLock = true;
+            }
+        }
 
-        if (previous().type == LOCK || previous().type == NOTLOCK) {
+        if (isLock) {
             consume(CLASS, "Expect 'class' after visibility modifier.");
         } else {
             consume(CLASS, "Expect 'class'.");

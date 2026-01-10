@@ -13,19 +13,11 @@ public abstract class Stmt {
 
         R visitIfStmt(If stmt);
 
-        R visitPrintStmt(Print stmt); // Wait, spec uses Sys.out, which is a call. But for debugging or simple
-                                      // implementation...
-        // Sys.out is likely a native function call. So ExpressionStmt.
+        R visitPrintStmt(Print stmt);
 
-        R visitVarStmt(Var stmt); // Explicit var? Spec: "Variables may be declared without explicit type
-                                  // annotations... cats = 3;"
-        // Also "var" keyword exists. 3.3 Keywords: "var".
-        // Maybe "var x = 1;" vs "x = 1;".
-        // Spec 3.1: "cats = 3;" (no var keyword).
-        // But "var" is a keyword.
-        // I will support Var declaration.
+        R visitVarStmt(Var stmt);
 
-        R visitCallStmt(CallStmt stmt); // "call Print;"
+        R visitCallStmt(CallStmt stmt);
 
         R visitSwitchStmt(Switch stmt);
 
@@ -53,11 +45,8 @@ public abstract class Stmt {
 
     public static class Class extends Stmt {
         public final Token name;
-        public final boolean isLock; // lock vs notlock (default notlock?)
-        // Spec 5.2: lock class Print ...
-        // Spec 5.1: class main ... (implicit notlock or default)
-        public final List<Stmt> body; // Class body containing statements/methods?
-        // As discussed, classes seem to contain statements.
+        public final boolean isLock;
+        public final List<Stmt> body;
 
         public Class(Token name, boolean isLock, List<Stmt> body) {
             this.name = name;
@@ -101,9 +90,6 @@ public abstract class Stmt {
         }
     }
 
-    // For debugging, or maybe Sys.out maps to this?
-    // I will stick to function calls for Sys.out, so no PrintStmt special node
-    // unless needed.
     public static class Print extends Stmt {
         public final Expr expression;
 
