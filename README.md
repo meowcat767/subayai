@@ -97,13 +97,3 @@ class main {
 }
 ```
 
-## Project Structure
-
-*   `src/site/meowcat/subayai/lang/`: Core implementation.
-    *   `Lexer.java`: Tokenizer.
-    *   `Parser.java`: AST Builder.
-    *   `Interpreter.java`: Runtime engine.
-    *   `Main.java`: CLI entry point.
-*   `src/site/meowcat/subayai/lang/ast/`: AST Node classes (`Expr`, `Stmt`).
-*   `src/site/meowcat/subayai/lang/runtime/`: Runtime library modules (`Sys`).
-*   `subayai`: CLI wrapper script.
