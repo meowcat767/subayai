@@ -87,5 +87,14 @@
       <ref role="AX2Wp" to="tpck:fKAQMTB" resolve="boolean" />
     </node>
   </node>
+  <node concept="1TIwiD" id="1h$GaYG$t5h">
+    <property role="EcuMT" value="1469493646990627153" />
+    <property role="TrG5h" value="FloatLiteral" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="1TJgyi" id="1h$GaYG$t5i" role="1TKVEl">
+      <property role="IQ2nx" value="1469493646990627154" />
+      <property role="TrG5h" value="value" />
+    </node>
+  </node>
 </model>
 
