@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<debug-info version="2">
+  <concept fqn="c:f3061a53-9226-4cc5-a443-f952ceaf5816/1068580123140:jetbrains.mps.baseLanguage.structure.ConstructorDeclaration" />
+  <concept fqn="c:f3061a53-9226-4cc5-a443-f952ceaf5816/1068580123155:jetbrains.mps.baseLanguage.structure.ExpressionStatement" />
+  <concept fqn="c:f3061a53-9226-4cc5-a443-f952ceaf5816/1068390468200:jetbrains.mps.baseLanguage.structure.FieldDeclaration" />
+  <concept fqn="c:f3061a53-9226-4cc5-a443-f952ceaf5816/1068580123165:jetbrains.mps.baseLanguage.structure.InstanceMethodDeclaration" />
+  <concept fqn="c:f3061a53-9226-4cc5-a443-f952ceaf5816/1068581242864:jetbrains.mps.baseLanguage.structure.LocalVariableDeclarationStatement" />
+  <concept fqn="c:f3061a53-9226-4cc5-a443-f952ceaf5816/1068581242878:jetbrains.mps.baseLanguage.structure.ReturnStatement" />
+  <concept fqn="c:f3061a53-9226-4cc5-a443-f952ceaf5816/1070475587102:jetbrains.mps.baseLanguage.structure.SuperConstructorInvocation" />
+  <root>
+    <file name="EditorAspectDescriptorImpl.java">
+      <unit at="15,0,31,0" name="Subayai.editor.EditorAspectDescriptorImpl" />
+    </file>
+  </root>
+  <root nodeRef="r:0b6f5dab-1ede-44ef-8cb6-22cd49cf9467(Subayai.editor)/5975414620309990554">
+    <file name="print_Editor.java">
+      <node id="5975414620309990554" at="11,79,12,71" concept="5" />
+      <node id="5975414620309990554" at="11,0,14,0" concept="3" trace="createEditorCell#(Ljetbrains/mps/openapi/editor/EditorContext;Lorg/jetbrains/mps/openapi/model/SNode;)Ljetbrains/mps/openapi/editor/cells/EditorCell;" />
+      <scope id="5975414620309990554" at="11,79,12,71" />
+      <scope id="5975414620309990554" at="11,0,14,0">
+        <var name="editorContext" id="5975414620309990554" />
+        <var name="node" id="5975414620309990554" />
+      </scope>
+      <unit id="5975414620309990554" at="10,0,15,0" name="Subayai.editor.print_Editor" />
+    </file>
+    <file name="print_EditorBuilder_a.java">
+      <node id="5975414620309990554" at="16,85,17,19" concept="6" />
+      <node id="5975414620309990554" at="17,19,18,18" concept="1" />
+      <node id="5975414620309990554" at="23,26,24,18" concept="5" />
+      <node id="5975414620309990554" at="27,39,28,30" concept="5" />
+      <node id="5975414620309990563" at="31,41,32,98" concept="4" />
+      <node id="5975414620309990563" at="32,98,33,46" concept="1" />
+      <node id="5975414620309990563" at="33,46,34,28" concept="1" />
+      <node id="5975414620309990563" at="34,28,35,31" concept="1" />
+      <node id="5975414620309990563" at="35,31,36,34" concept="1" />
+      <node id="5975414620309990563" at="36,34,37,22" concept="5" />
+      <node id="5975414620309990554" at="13,0,15,0" concept="2" trace="myNode" />
+      <node id="5975414620309990554" at="27,0,30,0" concept="3" trace="createCell#()Ljetbrains/mps/openapi/editor/cells/EditorCell;" />
+      <node id="5975414620309990554" at="16,0,20,0" concept="0" trace="print_EditorBuilder_a#(Ljetbrains/mps/openapi/editor/EditorContext;Lorg/jetbrains/mps/openapi/model/SNode;)V" />
+      <node id="5975414620309990554" at="21,0,26,0" concept="3" trace="getNode#()Lorg/jetbrains/mps/openapi/model/SNode;" />
+      <node id="5975414620309990563" at="31,0,39,0" concept="3" trace="createConstant_0#()Ljetbrains/mps/openapi/editor/cells/EditorCell;" />
+      <scope id="5975414620309990554" at="23,26,24,18" />
+      <scope id="5975414620309990554" at="27,39,28,30" />
+      <scope id="5975414620309990554" at="16,85,18,18" />
+      <scope id="5975414620309990554" at="27,0,30,0" />
+      <scope id="5975414620309990554" at="16,0,20,0">
+        <var name="context" id="5975414620309990554" />
+        <var name="node" id="5975414620309990554" />
+      </scope>
+      <scope id="5975414620309990554" at="21,0,26,0" />
+      <scope id="5975414620309990563" at="31,41,37,22">
+        <var name="editorCell" id="5975414620309990563" />
+      </scope>
+      <scope id="5975414620309990563" at="31,0,39,0" />
+      <unit id="5975414620309990554" at="12,0,40,0" name="Subayai.editor.print_EditorBuilder_a" />
+    </file>
+  </root>
+</debug-info>
+
