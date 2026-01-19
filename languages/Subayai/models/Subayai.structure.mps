@@ -80,6 +80,7 @@
   <node concept="1TIwiD" id="1h$GaYG$t5e">
     <property role="EcuMT" value="1469493646990627150" />
     <property role="TrG5h" value="BoolLiteral" />
+    <property role="R4oN_" value="Boolean" />
     <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
     <node concept="1TJgyi" id="1h$GaYG$t5f" role="1TKVEl">
       <property role="IQ2nx" value="1469493646990627151" />

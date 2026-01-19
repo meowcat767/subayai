@@ -47,5 +47,11 @@
       <property role="3F0ifm" value="&lt;property value&gt;" />
     </node>
   </node>
+  <node concept="24kQdi" id="4upETP$uLQL">
+    <ref role="1XX52x" to="be7m:1h$GaYG$t5h" resolve="FloatLiteral" />
+    <node concept="3F0ifn" id="4upETP$uLQN" role="2wV5jI">
+      <property role="3F0ifm" value="&lt;property value&gt;" />
+    </node>
+  </node>
 </model>
 
